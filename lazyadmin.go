@@ -41,19 +41,8 @@ func createUserName(firstName string, lastName string) string {
 }
 
 // NewUser Crea un usuario nuevo
-func (a *User) NewUser(
-	firstName string,
-	lastName string,
-	password string,
-	department string,
-	company string,
-	street string,
-	city string,
-	tel string,
-	forward string,
-	email string,
-	uid string,
-	group string) {
+func (a *User) NewUser(firstName string, lastName string, password string, department string, company string, street string, city string, tel string, forward string, email string, uid string, group string) {
+
 	a.user = createUserName(firstName, lastName)
 	a.first = firstName
 	a.last = lastName
