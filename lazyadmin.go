@@ -49,7 +49,7 @@ func createUserName(firstName string, lastName string) string {
 func randomPassword() string {
 	passwd := capitales[rand.Intn(len(capitales))]
 
-	return passwd + "." + string(rand.Intn(100))
+	return fmt.Sprintf("%v.%02v", passwd, rand.Intn(100))
 }
 
 func createPassword(password string) string {
