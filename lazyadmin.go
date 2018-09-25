@@ -2,7 +2,9 @@ package lazyadmin
 
 import (
 	"fmt"
+	"math/rand"
 	s "strings"
+	"time"
 )
 
 // User Registro para almacenar los alumnos en el formato Lazy Admin Tools
@@ -22,9 +24,13 @@ type User struct {
 	group      string
 }
 
+func init() {
+	rand.Seed(time.Now().Unix())
+}
+
 func createUserName(firstName string, lastName string) string {
 
-	r := s.NewReplacer("á", "a", "é", "e", "í", "i", "ó", "o", "ú", "u", "ü", "u")
+	r := s.NewReplacer("á", "a", "é", "e", "í", "i", "ó", "o", "ú", "u", "ü", "u", "ñ", "n")
 	first := r.Replace(s.ToLower(s.TrimSpace(firstName)))
 	last := r.Replace(s.ToLower(s.TrimSpace(lastName)))
 
@@ -40,13 +46,27 @@ func createUserName(firstName string, lastName string) string {
 	return username + lasts[0]
 }
 
-// NewUser Crea un usuario nuevo
-func (a *User) NewUser(firstName string, lastName string, password string, department string, company string, street string, city string, tel string, forward string, email string, uid string, group string) {
+func randomPassword() string {
+	passwd := capitales[rand.Intn(len(capitales))]
 
-	a.user = createUserName(firstName, lastName)
+	return passwd + "." + string(rand.Intn(100))
+}
+
+func createPassword(password string) string {
+	if password == "" || password == "RANDOM" {
+		return randomPassword()
+	}
+
+	return password
+}
+
+// NewUser Crea un usuario nuevo
+func (a *User) NewUser(prefix string, firstName string, lastName string, password string, department string, company string, street string, city string, tel string, forward string, email string, uid string, group string) {
+
+	a.user = prefix + createUserName(firstName, lastName)
 	a.first = firstName
 	a.last = lastName
-	a.password = password
+	a.password = createPassword(password)
 	a.department = department
 	a.company = company
 	a.street = street
